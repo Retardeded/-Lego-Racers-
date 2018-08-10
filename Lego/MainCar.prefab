@@ -284,8 +284,8 @@ GameObject:
   - component: {fileID: 54917338698667448}
   - component: {fileID: 114778284225281876}
   - component: {fileID: 65708824187347774}
-  - component: {fileID: 82697748548028338}
   - component: {fileID: 114012221145652148}
+  - component: {fileID: 82745232983609822}
   m_Layer: 10
   m_Name: MainCar
   m_TagString: Car
@@ -983,7 +983,7 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1875070620023966}
   m_Enabled: 1
---- !u!82 &82697748548028338
+--- !u!82 &82745232983609822
 AudioSource:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_FireTransform: {fileID: 4260900899500272}
   m_AimSlider: {fileID: 114696494668062356, guid: eeef24721c2aad74abaa65622df0698f,
     type: 2}
-  m_ShootingAudio: {fileID: 82697748548028338}
+  m_ShootingAudio: {fileID: 82745232983609822}
   m_ChargingClip: {fileID: 8300000, guid: c17f124fcdc0f5446a72f793898bd74b, type: 3}
   m_FireClip: {fileID: 8300000, guid: 672a9941361ad494a99fba36759eca80, type: 3}
   m_MinLaunchForce: 80
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayerNumber: 1
-  maxMotorTorque: 550
+  maxMotorTorque: 600
   maxSteeringAngle: 10
   truck_Infos:
   - leftWheel: {fileID: 146556338862707302}
@@ -1158,7 +1158,7 @@ MonoBehaviour:
     motor: 1
     steering: 0
     reverseTurn: 1
-  nitroForce: 850000
+  nitroForce: 950000
   isBoosted: 0
   speed: 0
 --- !u!114 &114957835568253598

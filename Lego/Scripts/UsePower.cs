@@ -27,9 +27,20 @@ public class UsePower : MonoBehaviour
         public GameObject trapPrefab;
         public float boostTime = 2f;
 
+        public Sprite[] blockImages;
+        public Image shownImage;
+
         public void SetBoost(int value)
         {
             currentBoostType = value;
+            shownImage.sprite = blockImages[value-1];
+            shownImage.color = new Color(255, 255, 255, 255);
+        }
+        
+        void ResetBoost()
+        {
+            currentBoostType = 0;
+            shownImage.color = new Color(255, 255, 255, 0);
         }
 
         private void OnEnable()
@@ -67,20 +78,20 @@ public class UsePower : MonoBehaviour
     {
         if(Input.GetButtonDown(m_FireButton))
         {
-            currentBoostType = 0;
             // do varible from dot_truck
             Dot_Truck_Controller carMovement = GetComponent<Dot_Truck_Controller>();
             carMovement.SetBoostTime(boostTime);
             carMovement.isBoosted = true;
             gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            ResetBoost();
         }
     }
     private void PlantTrap()
     {   
         if(Input.GetButtonDown(m_FireButton))
         {
-            currentBoostType = 0;
-            Instantiate(trapPrefab, transform.position, transform.rotation); 
+            Instantiate(trapPrefab, transform.position, transform.rotation);
+            ResetBoost();
         }
     }
 
@@ -88,8 +99,8 @@ public class UsePower : MonoBehaviour
     {
         if (Input.GetButtonDown(m_FireButton))
         {
-            currentBoostType = 0;
             StartCoroutine(ShieldDuration() );
+            ResetBoost();
         }
 
     }
@@ -151,7 +162,7 @@ public class UsePower : MonoBehaviour
         if (target != null)
         {
             print("Aim");
-            m_FireTransform.Rotate(-2f, 0f, 0f);
+            //m_FireTransform.Rotate(-2f, 0f, 0f);
             shellInstance =
                 Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
 
@@ -172,9 +183,8 @@ public class UsePower : MonoBehaviour
         m_ShootingAudio.clip = m_FireClip;
             m_ShootingAudio.Play();
 
-            // Reset the launch force.  This is a precaution in case of missing button events.
-            m_CurrentLaunchForce = m_MinLaunchForce;
-            currentBoostType = 0;
+        // Reset the launch force.  This is a precaution in case of missing button events.
+        ResetBoost();
         }
         
     }

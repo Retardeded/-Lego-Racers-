@@ -3,7 +3,7 @@
 public class ShellExplosion : MonoBehaviour
 {
     public LayerMask m_TankMask;                        // Used to filter what the explosion affects, this should be set to "Players".
-    //public ParticleSystem m_ExplosionParticles;         // Reference to the particles that will play on explosion.
+    public ParticleSystem m_ExplosionParticles;         // Reference to the particles that will play on explosion.
     public AudioSource m_ExplosionAudio;                // Reference to the audio that will play on explosion.
     public float m_MaxDamage = 2000f;                    // The amount of damage done if the explosion is centred on a tank.
     public float m_ExplosionForce = 8000f;              // The amount of force added to a tank at the centre of the explosion.
@@ -26,7 +26,7 @@ public class ShellExplosion : MonoBehaviour
         if(target != null)
         {
             chaseMode = true;
-            Invoke("CallOff", 0.3f);
+            Invoke("CallOff", 1f);
         }
     }
 
@@ -60,7 +60,7 @@ public class ShellExplosion : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++)
         {
             UsePower currentVictim = colliders[i].GetComponent<UsePower>();
-            if (currentVictim == null || colliders[i].material.dynamicFriction == 0.3f)
+            if (currentVictim == null || colliders[i].material.dynamicFriction != 1f)
                 continue;
 
             if (currentVictim.shieldActive)
@@ -81,17 +81,17 @@ public class ShellExplosion : MonoBehaviour
         }
 
         // Unparent the particles from the shell.
-        //m_ExplosionParticles.transform.parent = null;
+        m_ExplosionParticles.transform.parent = null;
 
         // Play the particle system.
-        //m_ExplosionParticles.Play();
+        m_ExplosionParticles.Play();
 
         // Play the explosion sound effect.
         m_ExplosionAudio.Play();
 
         // Once the particles have finished, destroy the gameobject they are on.
-        //ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
-        //Destroy(m_ExplosionParticles.gameObject, mainModule.duration);
+        ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
+        Destroy(m_ExplosionParticles.gameObject, mainModule.duration);
 
         // Destroy the shell.
         

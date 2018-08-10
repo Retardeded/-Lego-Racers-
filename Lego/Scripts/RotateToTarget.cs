@@ -27,6 +27,7 @@ public class RotateToTarget : MonoBehaviour {
 
     public Transform LookAt()
     {
+        target = null;
         Transform currentTarget;
         float currentDistance = maxDistance;
         for (int i = 0; i < possibleTargets.Length; i++)
@@ -52,14 +53,10 @@ public class RotateToTarget : MonoBehaviour {
         else
         {
             transform.LookAt(target);
-            print(" " + transform.localRotation.eulerAngles.y.ToString());
             return target;
         }
+
     }
 
-    private void Reset()
-    {
-        transform.rotation = basicRotation;
-    }
 
 }

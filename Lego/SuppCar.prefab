@@ -72,8 +72,8 @@ GameObject:
   - component: {fileID: 54511365677572100}
   - component: {fileID: 114381422438134394}
   - component: {fileID: 65098654134391552}
-  - component: {fileID: 82262988511682622}
   - component: {fileID: 114067405226393122}
+  - component: {fileID: 82262988511682622}
   m_Layer: 10
   m_Name: SuppCar
   m_TagString: Car
@@ -1138,7 +1138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayerNumber: 2
-  maxMotorTorque: 550
+  maxMotorTorque: 600
   maxSteeringAngle: 10
   truck_Infos:
   - leftWheel: {fileID: 146234260304006684}
@@ -1155,7 +1155,7 @@ MonoBehaviour:
     motor: 1
     steering: 0
     reverseTurn: 1
-  nitroForce: 850000
+  nitroForce: 900000
   isBoosted: 0
   speed: 0
 --- !u!114 &114864174425092980
