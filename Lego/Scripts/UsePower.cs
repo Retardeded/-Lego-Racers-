@@ -23,12 +23,19 @@ public class UsePower : MonoBehaviour
         private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
         public int currentBoostType = 0;
+        public int whiteBlocksNumber = 0;
         public bool shieldActive = false;
         public GameObject trapPrefab;
         public float boostTime = 2f;
 
+        public Rigidbody anchorPrefab;
+
+        public Rigidbody explosionBarrelPrefab;
+
         public Sprite[] blockImages;
         public Image shownImage;
+
+        Dot_Truck_Controller carMovement;
 
         public void SetBoost(int value)
         {
@@ -40,6 +47,7 @@ public class UsePower : MonoBehaviour
         void ResetBoost()
         {
             currentBoostType = 0;
+            whiteBlocksNumber = 0;
             shownImage.color = new Color(255, 255, 255, 0);
         }
 
@@ -59,30 +67,63 @@ public class UsePower : MonoBehaviour
 
             // The rate that the launch force charges up is the range of possible forces by the max charge time.
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
+
+            carMovement = GetComponent<Dot_Truck_Controller>();
         }
         
 
         private void Update()
         {
         if (currentBoostType == 1)
-            BombLanuch();
+        {
+            if (whiteBlocksNumber == 1)
+                AnchorLanuch();
+            else
+                BombLanuch();
+        }
         else if (currentBoostType == 2)
-            ShieldLanuch();
+        {
+            if (whiteBlocksNumber == 1)
+                GreenShield();
+            else
+                BlueShield();
+
+        }
         else if (currentBoostType == 3)
-            PlantTrap();
+        {
+            if (whiteBlocksNumber == 1)
+                GunpowderBarrel();
+            else
+                PlantTrap();
+        }
         else if (currentBoostType == 4)
-            SpeedUpCar();
+        {
+            if (whiteBlocksNumber == 1)
+                DoubleTurboBoost();
+            else
+                TurboBoost();
+        }
     }
 
-    private void SpeedUpCar()
+    private void TurboBoost()
     {
         if(Input.GetButtonDown(m_FireButton))
         {
-            // do varible from dot_truck
-            Dot_Truck_Controller carMovement = GetComponent<Dot_Truck_Controller>();
             carMovement.SetBoostTime(boostTime);
             carMovement.isBoosted = true;
-            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            gameObject.transform.GetChild(2).gameObject.SetActive(true);
+            ResetBoost();
+        }
+    }
+
+    private void DoubleTurboBoost()
+    {
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            print("work");
+            carMovement.SetBoostTime(boostTime * 1.2f);
+            carMovement.isDoubleBoosted = true;
+            gameObject.transform.GetChild(3).gameObject.SetActive(true);
             ResetBoost();
         }
     }
@@ -95,25 +136,75 @@ public class UsePower : MonoBehaviour
         }
     }
 
-    void ShieldLanuch()
+    private void GunpowderBarrel()
     {
         if (Input.GetButtonDown(m_FireButton))
         {
-            StartCoroutine(ShieldDuration() );
+            FireBarrel();
+            ResetBoost();
+        }
+    }
+
+    private void FireBarrel()
+    {
+        Rigidbody barrel =
+                Instantiate(explosionBarrelPrefab, m_FireTransform.position + new Vector3(0f, -1f, -2f), transform.rotation) as Rigidbody;
+
+        barrel.velocity = m_MinLaunchForce * -transform.forward;
+        BarrelExplosion explosionBarrel = barrel.GetComponent<BarrelExplosion>();
+        explosionBarrel.gravityScale = -8;
+    }
+
+    void GreenShield()
+    {
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            StartCoroutine(ShieldDuration(whiteBlocksNumber, 7f) );
             ResetBoost();
         }
 
     }
 
-    IEnumerator ShieldDuration()
+    void BlueShield()
     {
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            StartCoroutine(ShieldDuration(whiteBlocksNumber, 5f));
+            ResetBoost();
+        }
+
+    }
+
+    IEnumerator ShieldDuration(int childNumber, float duration)
+    {
+        gameObject.transform.GetChild(childNumber).gameObject.SetActive(true);
         shieldActive = true;
-        yield return new WaitForSeconds(5f);
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        yield return new WaitForSeconds(duration);
+        gameObject.transform.GetChild(childNumber).gameObject.SetActive(false);
         shieldActive = false;
     }
 
+    void AnchorLanuch()
+    {
+        if (Input.GetButton(m_FireButton))
+        {
+            Transform target = m_FireTransform.GetComponent<RotateToTarget>().LookAt();
+            Rigidbody anchorInstance;
+            if (target != null)
+            {
+                anchorInstance =
+                Instantiate(anchorPrefab, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+
+                anchorInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward * 2f;
+                AnchorMovement anchor = anchorInstance.GetComponent<AnchorMovement>();
+                anchor.gravityScale = -11;
+                anchor.target = target;
+                anchor.orginCar = carMovement;
+            }
+
+            ResetBoost();
+        }
+    }
     private void BombLanuch()
         {
             m_AimSlider.value = m_MinLaunchForce;
@@ -123,7 +214,7 @@ public class UsePower : MonoBehaviour
             {
                 // ... use the max force and launch the shell.
                 m_CurrentLaunchForce = m_MaxLaunchForce;
-                Fire();
+                FireBomb();
             }
             // Otherwise, if the fire button has just started being pressed...
             else if (Input.GetButtonDown(m_FireButton))
@@ -148,11 +239,11 @@ public class UsePower : MonoBehaviour
             else if (Input.GetButtonUp(m_FireButton) && !m_Fired)
             {
                 // ... launch the shell.
-                Fire();
+                FireBomb();
             }
         }
 
-        private void Fire()
+        private void FireBomb()
         {
             // Set the fired flag so only Fire is only called once.
             m_Fired = true;

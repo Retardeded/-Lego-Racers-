@@ -65,7 +65,8 @@ public class ShellExplosion : MonoBehaviour
 
             if (currentVictim.shieldActive)
             {
-                continue;
+                break;
+                // future change might be needed in this place
             }
 
             Rigidbody targetRigidbody = colliders[i].GetComponent<Rigidbody>();
