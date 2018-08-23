@@ -17,7 +17,7 @@ using UnityEngine;
             {
                 other.gameObject.GetComponent<UsePower>().SetBoost(boostType);
                 gameObject.SetActive(false);
-            Invoke("SpawnAgain", spawnTime);
+                Invoke("SpawnAgain", spawnTime);
             }
         }
 

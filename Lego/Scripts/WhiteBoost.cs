@@ -15,7 +15,8 @@ public class WhiteBoost : MonoBehaviour
         {
             if(other.gameObject.GetComponent<UsePower>().whiteBlocksNumber < 3)
             {
-                other.gameObject.GetComponent<UsePower>().whiteBlocksNumber++;
+                UsePower carToBoost = other.gameObject.GetComponent<UsePower>();
+                carToBoost.UpgradeBoost(carToBoost.whiteBlocksNumber + 1);
                 gameObject.SetActive(false);
                 Invoke("SpawnAgain", spawnTime);
             }

@@ -27,15 +27,18 @@ public class UsePower : MonoBehaviour
         public bool shieldActive = false;
         public GameObject trapPrefab;
         public float boostTime = 2f;
-
+        public bool strongSpeedUpAvailable = true;
         public Rigidbody anchorPrefab;
+        public Rigidbody chaseBombPrefab;
 
         public Rigidbody explosionBarrelPrefab;
 
         public Sprite[] blockImages;
+        public Sprite[] whiteBlockImages;
         public Image shownImage;
-
+        public Image shownWhiteImage;
         Dot_Truck_Controller carMovement;
+        DistanceTraveled distanceTraveled;
 
         public void SetBoost(int value)
         {
@@ -43,11 +46,17 @@ public class UsePower : MonoBehaviour
             shownImage.sprite = blockImages[value-1];
             shownImage.color = new Color(255, 255, 255, 255);
         }
-        
+        public void UpgradeBoost(int value)
+        {
+            whiteBlocksNumber = value;
+            shownWhiteImage.sprite = whiteBlockImages[value-1];
+            shownWhiteImage.color = new Color(255, 255, 255, 255);
+    }
         void ResetBoost()
         {
             currentBoostType = 0;
             whiteBlocksNumber = 0;
+            shownWhiteImage.color = new Color(255, 255, 255, 0);
             shownImage.color = new Color(255, 255, 255, 0);
         }
 
@@ -69,6 +78,7 @@ public class UsePower : MonoBehaviour
             m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
 
             carMovement = GetComponent<Dot_Truck_Controller>();
+            distanceTraveled = GetComponent<DistanceTraveled>();
         }
         
 
@@ -76,7 +86,9 @@ public class UsePower : MonoBehaviour
         {
         if (currentBoostType == 1)
         {
-            if (whiteBlocksNumber == 1)
+            if (whiteBlocksNumber == 2)
+                ChaseFirstBomb();
+            else if (whiteBlocksNumber == 1)
                 AnchorLanuch();
             else
                 BombLanuch();
@@ -96,13 +108,20 @@ public class UsePower : MonoBehaviour
             else
                 PlantTrap();
         }
-        else if (currentBoostType == 4)
+        else if (currentBoostType == 4 )
         {
-            if (whiteBlocksNumber == 1)
-                DoubleTurboBoost();
+            if(strongSpeedUpAvailable)
+            {
+                if (whiteBlocksNumber == 1)
+                    DoubleTurboBoost();
+                else
+                    TurboBoost();
+            }
             else
+            {
                 TurboBoost();
-        }
+            }
+        } 
     }
 
     private void TurboBoost()
@@ -183,7 +202,24 @@ public class UsePower : MonoBehaviour
         gameObject.transform.GetChild(childNumber).gameObject.SetActive(false);
         shieldActive = false;
     }
+    private void ChaseFirstBomb()
+    {
+        if (Input.GetButton(m_FireButton))
+        {
+            Transform target = m_FireTransform.GetComponent<RotateToTarget>().LookAt();
+            Rigidbody rocketInstance;
 
+                rocketInstance =
+                Instantiate(chaseBombPrefab, m_FireTransform.position + 2 * Vector3.up, m_FireTransform.rotation) as Rigidbody;
+
+                FirstPlaceRocket chaseRocket = rocketInstance.GetComponent<FirstPlaceRocket>();
+                chaseRocket.speed = m_MinLaunchForce / 1.5f;
+                chaseRocket.gravityScale = -2;
+                chaseRocket.targetedCheckPointNumber = distanceTraveled.currentCheckPoint + 1;
+
+            ResetBoost();
+        }
+    }
     void AnchorLanuch()
     {
         if (Input.GetButton(m_FireButton))
@@ -201,13 +237,22 @@ public class UsePower : MonoBehaviour
                 anchor.target = target;
                 anchor.orginCar = carMovement;
             }
+            else
+            {
+                anchorInstance =
+                Instantiate(anchorPrefab, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+
+                anchorInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward * 2f;
+                AnchorMovement anchor = anchorInstance.GetComponent<AnchorMovement>();
+                anchor.gravityScale = -11;
+                anchor.orginCar = carMovement;
+            }
 
             ResetBoost();
         }
     }
     private void BombLanuch()
         {
-            m_AimSlider.value = m_MinLaunchForce;
 
             // If the max force has been exceeded and the shell hasn't yet been launched...
             if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired)
@@ -233,7 +278,6 @@ public class UsePower : MonoBehaviour
                 // Increment the launch force and update the slider.
                 m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
 
-                m_AimSlider.value = m_CurrentLaunchForce;
             }
             // Otherwise, if the fire button is released and the shell hasn't been launched yet...
             else if (Input.GetButtonUp(m_FireButton) && !m_Fired)
@@ -276,6 +320,12 @@ public class UsePower : MonoBehaviour
 
         // Reset the launch force.  This is a precaution in case of missing button events.
         ResetBoost();
+        }
+
+        public IEnumerator RecoveryTime(float time)
+        {
+        yield return new WaitForSeconds(time);
+        strongSpeedUpAvailable = true;
         }
         
     }

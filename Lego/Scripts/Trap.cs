@@ -7,7 +7,6 @@ public class Trap : MonoBehaviour {
     bool isTriggered = false;
 
     public float torque = 400f;
-    public float downForce = 400f;
 
     float curseTime = 1f;
     Rigidbody victim;

@@ -38,7 +38,8 @@ public class AnchorMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.DrawLine(transform.position, orginCar.transform.position, Color.red, 0.05f);
+        //Debug.DrawLine(transform.position, orginCar.transform.position, Color.red, 0.02f);
+        Debug.DrawRay(transform.position, orginCar.transform.position - transform.position, Color.red, 0.02f);
         Vector3 gravity = gravityScale * Vector3.up;
         rb.AddForce(gravity, ForceMode.Acceleration);
         if (chaseMode)
@@ -55,22 +56,29 @@ public class AnchorMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Car")
+        if(other.tag != "CheckPoint")
         {
-            UsePower currentVictim = other.gameObject.GetComponent<UsePower>();
-
-            if (currentVictim.shieldActive == false)
+            if (other.tag == "Car")
             {
-                orginCar.hookMode = true;
-                orginCar.SetHookTime(hookTime);
-                orginCar.victimRB = target.GetComponentInParent<Rigidbody>();
-                transform.SetParent(other.transform);
-                chaseMode = false;
-                rb.velocity = Vector3.zero;
+                UsePower currentVictim = other.gameObject.GetComponent<UsePower>();
+
+                if (currentVictim.shieldActive == false)
+                {
+                    orginCar.hookMode = true;
+                    orginCar.SetHookTime(hookTime);
+                    orginCar.victimRB = target.GetComponentInParent<Rigidbody>();
+                    transform.SetParent(other.transform);
+                    chaseMode = false;
+                    rb.velocity = Vector3.zero;
+                }
+                else
+                    Destroy(gameObject);
             }
             else
+            {
                 Destroy(gameObject);
+            }
         }
-        Destroy(gameObject, m_MaxLifeTime);
     }
+
 }
