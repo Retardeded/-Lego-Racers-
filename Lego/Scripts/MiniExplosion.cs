@@ -20,16 +20,19 @@ public class MiniExplosion : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Car")
+        if(other.tag != "CheckPoint")
         {
-            Rigidbody targetRigidbody = other.gameObject.GetComponent<Rigidbody>();
+            if (other.tag == "Car")
+            {
+                Rigidbody targetRigidbody = other.gameObject.GetComponent<Rigidbody>();
 
-            targetRigidbody.velocity *= 0.4f;
+                targetRigidbody.velocity *= 0.4f;
 
-            targetRigidbody.AddForceAtPosition(Vector3.up * m_ExplosionForce * 1000, targetRigidbody.transform.position);
+                targetRigidbody.AddForceAtPosition(Vector3.up * m_ExplosionForce * 1000, targetRigidbody.transform.position);
+            }
+
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 
     void DisableMethod()

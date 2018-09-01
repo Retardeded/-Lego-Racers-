@@ -25,7 +25,10 @@ public class UsePower : MonoBehaviour
         public int currentBoostType = 0;
         public int whiteBlocksNumber = 0;
         public bool shieldActive = false;
+        public GameObject activatedShield;
+        Coroutine shieldCoroutine;
         public GameObject trapPrefab;
+        public GameObject warpFormationPrefab;
         public float boostTime = 2f;
         public bool strongSpeedUpAvailable = true;
         public Rigidbody anchorPrefab;
@@ -33,7 +36,10 @@ public class UsePower : MonoBehaviour
 
         public Rigidbody explosionBarrelPrefab;
 
-        public Sprite[] blockImages;
+        public Transform carMeshPrefab;
+        Vector3 carMeshBasicPositon;
+
+    public Sprite[] blockImages;
         public Sprite[] whiteBlockImages;
         public Image shownImage;
         public Image shownWhiteImage;
@@ -60,13 +66,12 @@ public class UsePower : MonoBehaviour
             shownImage.color = new Color(255, 255, 255, 0);
         }
 
-        private void OnEnable()
+    private void OnEnable()
         {
             // When the tank is turned on, reset the launch force and the UI
             m_CurrentLaunchForce = m_MinLaunchForce;
-            m_AimSlider.value = m_MinLaunchForce;
             //gameObject.transform.GetChild(0).gameObject.SetActive(false);
-    }
+        }
 
 
         private void Start()
@@ -79,6 +84,7 @@ public class UsePower : MonoBehaviour
 
             carMovement = GetComponent<Dot_Truck_Controller>();
             distanceTraveled = GetComponent<DistanceTraveled>();
+            carMeshBasicPositon = carMeshPrefab.localPosition;
         }
         
 
@@ -95,7 +101,9 @@ public class UsePower : MonoBehaviour
         }
         else if (currentBoostType == 2)
         {
-            if (whiteBlocksNumber == 1)
+            if (whiteBlocksNumber == 2)
+                OrangeShield();
+            else if (whiteBlocksNumber == 1)
                 GreenShield();
             else
                 BlueShield();
@@ -103,7 +111,9 @@ public class UsePower : MonoBehaviour
         }
         else if (currentBoostType == 3)
         {
-            if (whiteBlocksNumber == 1)
+            if (whiteBlocksNumber == 2)
+                WarpFormation();
+            else if (whiteBlocksNumber == 1)
                 GunpowderBarrel();
             else
                 PlantTrap();
@@ -112,7 +122,9 @@ public class UsePower : MonoBehaviour
         {
             if(strongSpeedUpAvailable)
             {
-                if (whiteBlocksNumber == 1)
+                if (whiteBlocksNumber == 2)
+                    FlyingTurboBoost();
+                else if (whiteBlocksNumber == 1)
                     DoubleTurboBoost();
                 else
                     TurboBoost();
@@ -128,9 +140,13 @@ public class UsePower : MonoBehaviour
     {
         if(Input.GetButtonDown(m_FireButton))
         {
+            carMeshPrefab.localPosition = carMeshBasicPositon;
             carMovement.SetBoostTime(boostTime);
-            carMovement.isBoosted = true;
-            gameObject.transform.GetChild(2).gameObject.SetActive(true);
+            carMovement.isBoosted = 1;
+            gameObject.transform.GetChild(3).gameObject.SetActive(true);
+
+            gameObject.transform.GetChild(4).gameObject.SetActive(false);
+            gameObject.transform.GetChild(5).gameObject.SetActive(false);
             ResetBoost();
         }
     }
@@ -139,10 +155,44 @@ public class UsePower : MonoBehaviour
     {
         if (Input.GetButtonDown(m_FireButton))
         {
-            print("work");
+            carMeshPrefab.localPosition = carMeshBasicPositon;
             carMovement.SetBoostTime(boostTime * 1.2f);
-            carMovement.isDoubleBoosted = true;
-            gameObject.transform.GetChild(3).gameObject.SetActive(true);
+            carMovement.isBoosted = 2;
+            gameObject.transform.GetChild(4).gameObject.SetActive(true);
+
+            gameObject.transform.GetChild(3).gameObject.SetActive(false);
+            gameObject.transform.GetChild(5).gameObject.SetActive(false);
+            ResetBoost();
+        }
+    }
+
+    private void FlyingTurboBoost()
+    {
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            carMovement.SetBoostTime(boostTime * 1.8f);
+            carMovement.isBoosted = 3;
+            gameObject.transform.GetChild(5).gameObject.SetActive(true);
+
+            gameObject.transform.GetChild(3).gameObject.SetActive(false);
+            gameObject.transform.GetChild(4).gameObject.SetActive(false);
+            ResetBoost();
+        }
+    }
+
+    void WarpFormation()
+    {
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            Instantiate(warpFormationPrefab, transform.position + 4 * Vector3.down, warpFormationPrefab.transform.rotation);
+            ResetBoost();
+        }
+    }
+    private void GunpowderBarrel()
+    {
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            FireBarrel();
             ResetBoost();
         }
     }
@@ -151,15 +201,6 @@ public class UsePower : MonoBehaviour
         if(Input.GetButtonDown(m_FireButton))
         {
             Instantiate(trapPrefab, transform.position, transform.rotation);
-            ResetBoost();
-        }
-    }
-
-    private void GunpowderBarrel()
-    {
-        if (Input.GetButtonDown(m_FireButton))
-        {
-            FireBarrel();
             ResetBoost();
         }
     }
@@ -174,46 +215,63 @@ public class UsePower : MonoBehaviour
         explosionBarrel.gravityScale = -8;
     }
 
+    void OrangeShield()
+    {
+        if (Input.GetButtonDown(m_FireButton))
+        {
+            if(shieldCoroutine != null)
+                StopCoroutine(shieldCoroutine);
+            shieldCoroutine = StartCoroutine(ShieldDuration(whiteBlocksNumber, 9f));
+            ResetBoost();
+        }
+    }
     void GreenShield()
     {
         if (Input.GetButtonDown(m_FireButton))
         {
-            StartCoroutine(ShieldDuration(whiteBlocksNumber, 7f) );
+            if (shieldCoroutine != null)
+                StopCoroutine(shieldCoroutine);
+            shieldCoroutine = StartCoroutine(ShieldDuration(whiteBlocksNumber, 7f) );
             ResetBoost();
         }
-
     }
 
     void BlueShield()
     {
         if (Input.GetButtonDown(m_FireButton))
         {
-            StartCoroutine(ShieldDuration(whiteBlocksNumber, 5f));
+            if (shieldCoroutine != null)
+                StopCoroutine(shieldCoroutine);
+            shieldCoroutine = StartCoroutine(ShieldDuration(whiteBlocksNumber, 5f));
             ResetBoost();
         }
-
     }
 
     IEnumerator ShieldDuration(int childNumber, float duration)
     {
-        gameObject.transform.GetChild(childNumber).gameObject.SetActive(true);
+        if(activatedShield != null)
+        {
+            activatedShield.SetActive(false);
+        }
+
+        activatedShield = gameObject.transform.GetChild(childNumber).gameObject;
+        activatedShield.SetActive(true);
         shieldActive = true;
         yield return new WaitForSeconds(duration);
-        gameObject.transform.GetChild(childNumber).gameObject.SetActive(false);
+        activatedShield.SetActive(false);
         shieldActive = false;
     }
     private void ChaseFirstBomb()
     {
         if (Input.GetButton(m_FireButton))
         {
-            Transform target = m_FireTransform.GetComponent<RotateToTarget>().LookAt();
             Rigidbody rocketInstance;
 
                 rocketInstance =
                 Instantiate(chaseBombPrefab, m_FireTransform.position + 2 * Vector3.up, m_FireTransform.rotation) as Rigidbody;
 
                 FirstPlaceRocket chaseRocket = rocketInstance.GetComponent<FirstPlaceRocket>();
-                chaseRocket.speed = m_MinLaunchForce / 1.5f;
+                chaseRocket.speed = m_MinLaunchForce;
                 chaseRocket.gravityScale = -2;
                 chaseRocket.targetedCheckPointNumber = distanceTraveled.currentCheckPoint + 1;
 
@@ -233,7 +291,7 @@ public class UsePower : MonoBehaviour
 
                 anchorInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward * 2f;
                 AnchorMovement anchor = anchorInstance.GetComponent<AnchorMovement>();
-                anchor.gravityScale = -11;
+                anchor.gravityScale = -3;
                 anchor.target = target;
                 anchor.orginCar = carMovement;
             }
@@ -303,8 +361,9 @@ public class UsePower : MonoBehaviour
 
             shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
             ShellExplosion bomb = shellInstance.GetComponent<ShellExplosion>();
-            bomb.gravityScale = -11;
+            bomb.gravityScale = -8;
             bomb.target = target;
+            bomb.orginCar = transform;
         }
         else
         {
@@ -312,7 +371,10 @@ public class UsePower : MonoBehaviour
             shellInstance =
                 Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
             shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
-            shellInstance.GetComponent<ShellExplosion>().gravityScale = -15;
+
+            ShellExplosion bomb = shellInstance.GetComponent<ShellExplosion>();
+            bomb.gravityScale = -15;
+            bomb.orginCar = transform;
         }
         // Change the clip to the firing clip and play it.
         m_ShootingAudio.clip = m_FireClip;

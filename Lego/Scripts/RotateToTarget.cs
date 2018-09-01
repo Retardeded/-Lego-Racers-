@@ -6,16 +6,16 @@ public class RotateToTarget : MonoBehaviour {
 
     public Transform target;
     public GameObject thisAsTarget;
-    public float maxDistance = 15f;
+    public float maxDistance = 60f;
     Quaternion basicRotation;
     GameObject[] possibleTargets;
-    float upRotationBoundary = 310f;
-    float downRotationBoundary = 50f;
+    int upRotationBoundary = 310;
+    int downRotationBoundary = 50;
 
     void Start() {
 
         basicRotation = transform.localRotation;
-        possibleTargets = GameObject.FindGameObjectsWithTag("Target");
+        possibleTargets = GameObject.FindGameObjectsWithTag("Car");
         for(int i = 0; i < possibleTargets.Length; i++)
         {
             if (possibleTargets[i] == thisAsTarget)

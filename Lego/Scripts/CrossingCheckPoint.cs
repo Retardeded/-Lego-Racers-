@@ -17,9 +17,9 @@ public class CrossingCheckPoint : MonoBehaviour {
             DistanceTraveled carProgress = other.GetComponent<DistanceTraveled>();
 
             if (carProgress.currentCheckPoint == checkPointNumber - 1)
-                carProgress.currentCheckPoint++;
+                carProgress.currentCheckPoint = checkPointNumber;
             else if (carProgress.currentCheckPoint == checkPointNumber)
-                carProgress.currentCheckPoint--;
+                carProgress.currentCheckPoint = checkPointNumber - 1;
         }
     }
 }

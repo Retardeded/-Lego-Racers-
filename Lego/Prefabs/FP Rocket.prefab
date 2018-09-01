@@ -137,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 1578336222098472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 218.03, y: 11.65, z: 173.09}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4372051468220796}
   - {fileID: 4756234543137540}
@@ -375,16 +375,16 @@ MonoBehaviour:
     m_Bits: 1024
   m_ExplosionParticles: {fileID: 198009994629715176}
   m_ExplosionAudio: {fileID: 82894371842533842}
-  m_MaxDamage: 1500
-  m_ExplosionForce: 8000
+  m_MaxDamage: 150
+  m_ExplosionForce: 600
   m_MaxLifeTime: 90
-  m_ExplosionRadius: 8
+  m_ExplosionRadius: 1
   currentTarget: {fileID: 0}
   targetedCheckPointNumber: 0
   rotateSpeed: 100
-  speed: 100
+  speed: 1
   gravityScale: -2
-  closeEnoughDistance: 30
+  closeEnoughDistance: 3
   torque: 10000
 --- !u!136 &136927511316667754
 CapsuleCollider:

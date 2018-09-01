@@ -97,9 +97,16 @@ public class CheckPointHandler : MonoBehaviour {
 
             carStats[i].carTravelScore += carDistances[i].currentLap * 2868;
             carStats[i].carTravelScore -= checkPoints[carDistances[i].currentCheckPoint].distanceToMeta;
-            float currentDist = Vector3.Magnitude(carPositionsInGame[i].position - checkPoints[carDistances[i].currentCheckPoint].checkPointObj.transform.position);
-
-            carStats[i].carTravelScore += currentDist;
+            if(carDistances[i].currentCheckPoint == 0)
+            {
+                float currentDist = Vector3.Magnitude(carPositionsInGame[i].position - checkPoints[carDistances[i].currentCheckPoint + 1].checkPointObj.transform.position);
+                carStats[i].carTravelScore -= currentDist;
+            }
+            else
+            {
+                float currentDist = Vector3.Magnitude(carPositionsInGame[i].position - checkPoints[carDistances[i].currentCheckPoint].checkPointObj.transform.position);
+                carStats[i].carTravelScore += currentDist;
+            }
 
         }
         // decreasing sort // highest num -> 1st pos

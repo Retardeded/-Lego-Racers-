@@ -60,10 +60,12 @@ public class AnchorMovement : MonoBehaviour
         {
             if (other.tag == "Car")
             {
+                print("carDetec");
                 UsePower currentVictim = other.gameObject.GetComponent<UsePower>();
 
                 if (currentVictim.shieldActive == false)
                 {
+                    print("shieldDeac");
                     orginCar.hookMode = true;
                     orginCar.SetHookTime(hookTime);
                     orginCar.victimRB = target.GetComponentInParent<Rigidbody>();

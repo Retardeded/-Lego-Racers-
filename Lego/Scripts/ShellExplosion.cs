@@ -14,8 +14,10 @@ public class ShellExplosion : MonoBehaviour
     public float rotateSpeed = 100f;
     public float speed = 20f;
     public int gravityScale = -5;
+    public Transform orginCar;
     Rigidbody rb;
     bool chaseMode = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -56,15 +58,25 @@ public class ShellExplosion : MonoBehaviour
         if(other.tag != "CheckPoint")
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
-
+            bool strongShieldDetected = false;
             for (int i = 0; i < colliders.Length; i++)
             {
                 UsePower currentVictim = colliders[i].GetComponent<UsePower>();
-                if (currentVictim == null || colliders[i].material.dynamicFriction != 1f)
+                if (currentVictim == null )
                     continue;
 
                 if (currentVictim.shieldActive)
                 {
+                    print("Maybe");
+                    Shield blockingShield = currentVictim.activatedShield.GetComponent<Shield>();
+                    if (blockingShield.strongShield == true && target == other.transform)
+                    {
+                        print("Complicated");
+                        strongShieldDetected = true;
+                        transform.Rotate(0f, 180f, 0f);
+                        target = orginCar;
+                        gravityScale = 0;
+                    }
                     break;
                     // future change might be needed in this place
                 }
@@ -79,16 +91,19 @@ public class ShellExplosion : MonoBehaviour
                 targetRigidbody.AddForceAtPosition(Vector3.up * (m_ExplosionForce + damage * 1000f), targetRigidbody.transform.position);
                 print("dmgDONE " + (damage / m_MaxDamage).ToString());
             }
-            m_ExplosionParticles.transform.parent = null;
+            if(!strongShieldDetected)
+            {
+                m_ExplosionParticles.transform.parent = null;
 
-            m_ExplosionParticles.Play();
+                m_ExplosionParticles.Play();
 
-            m_ExplosionAudio.Play();
+                m_ExplosionAudio.Play();
 
-            ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
-            Destroy(m_ExplosionParticles.gameObject, mainModule.duration);
+                ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
+                Destroy(m_ExplosionParticles.gameObject, mainModule.duration);
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 

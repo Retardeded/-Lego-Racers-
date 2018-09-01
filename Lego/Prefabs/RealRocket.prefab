@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 192454}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 67.10314, y: 12, z: 143.70778}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 4975803836812436}
   m_Father: {fileID: 0}
@@ -381,14 +381,15 @@ MonoBehaviour:
     m_Bits: 1024
   m_ExplosionParticles: {fileID: 198540207889710882}
   m_ExplosionAudio: {fileID: 82110601301053950}
-  m_MaxDamage: 2000
-  m_ExplosionForce: 8000
+  m_MaxDamage: 1000
+  m_ExplosionForce: 4000
   m_MaxLifeTime: 5
-  m_ExplosionRadius: 8
+  m_ExplosionRadius: 1
   target: {fileID: 0}
   rotateSpeed: 100
-  speed: 20
+  speed: 4
   gravityScale: -5
+  orginCar: {fileID: 0}
 --- !u!198 &198280443358216586
 ParticleSystem:
   m_ObjectHideFlags: 1

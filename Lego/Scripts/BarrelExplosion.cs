@@ -28,22 +28,25 @@ public class BarrelExplosion : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Car")
+        if(other.tag != "CheckPoint")
         {
-            Rigidbody targetRigidbody = other.gameObject.GetComponent<Rigidbody>();
+            if (other.tag == "Car")
+            {
+                Rigidbody targetRigidbody = other.gameObject.GetComponent<Rigidbody>();
 
-            targetRigidbody.velocity *= 0.1f;
+                targetRigidbody.velocity *= 0.1f;
 
-            targetRigidbody.AddForceAtPosition(Vector3.up * (m_MaxDamage), targetRigidbody.transform.position, ForceMode.Impulse);
+                targetRigidbody.AddForceAtPosition(Vector3.up * (m_MaxDamage), targetRigidbody.transform.position, ForceMode.Impulse);
 
-            
+
+            }
+
+            else
+            {
+                Instantiate(placeWithExplosives, transform.position, Quaternion.identity);
+            }
+
+            Destroy(gameObject);
         }
-
-        else
-        {
-            Instantiate(placeWithExplosives, transform.position, Quaternion.identity);
-        }
-
-        Destroy(gameObject);
     }
 }

@@ -44,7 +44,7 @@ public class FirstPlaceRocket : MonoBehaviour {
         {
             currentTarget = CheckPointHandler.currentFirstPlace;
         }
-        else if (Vector3.Magnitude(transform.position - availableCheckPoints[targetedCheckPointNumber].checkPointObj.position) < 10f)
+        else if (Vector3.Magnitude(transform.position - availableCheckPoints[targetedCheckPointNumber].checkPointObj.position) < 1f)
         {
             targetedCheckPointNumber++;
             currentTarget = availableCheckPoints[targetedCheckPointNumber].checkPointObj;

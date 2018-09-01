@@ -28,9 +28,11 @@ public class Trap : MonoBehaviour {
             victim = other.gameObject.GetComponent<Rigidbody>();
             if (victim.GetComponent<UsePower>().shieldActive == true)
                 OnShieldEnter();
-
-            isTriggered = true;
-            Destroy(gameObject, curseTime);
+            if(victim.GetComponent<Dot_Truck_Controller>().isBoosted != 3)
+            {
+                isTriggered = true;
+                Destroy(gameObject, curseTime);
+            }
         }
 
     }
@@ -41,8 +43,6 @@ public class Trap : MonoBehaviour {
     void Curse(Rigidbody rb)
     {
         rb.AddRelativeTorque(0f, torque, 0f, ForceMode.VelocityChange);
-        //rb.AddRelativeForce(0f, 0f, -1f * downForce, ForceMode.Acceleration);
-
     }
 
     private void FixedUpdate()
