@@ -60,3 +60,24 @@ int main(void)
    }
    return 0;
  }
+//author: Piotr Kurek
+
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+
+int toSeconds= 60*60;
+int toSecondsPerDay = toSeconds * 24;
+int toSecondsPerWeek = toSecondsPerDay * 7;
+int Hours, n;
+
+Hours = scanf("%i", &n);
+printf("space  ");
+printf("%i", Hours);
+printf(" space ");
+int seconds = Hours*toSeconds;
+printf("%i hours = %i", Hours, seconds);
+
+}
