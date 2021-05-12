@@ -9,6 +9,15 @@ TagManager:
   - Shield
   - Enemy
   - Target
+  - CheckPoint
+  - Brick
+  - PositionTimes
+  - PositionNames
+  - Results
+  - WheelCollider
+  - MiniMap
+  - Hook
+  - IgnoreRocket
   layers:
   - Default
   - TransparentFX
@@ -23,7 +32,7 @@ TagManager:
   - Car
   - SoCarIsStable
   - Trap
-  - 
+  - MiniMap
   - 
   - 
   - 
@@ -43,6 +52,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: MiniMap
+    uniqueID: 4202401963
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

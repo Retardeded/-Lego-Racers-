@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: cddef877b96273447aed6b0cbb58ad64
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_Shell: {instanceID: 0}
+  - m_FireTransform: {instanceID: 0}
+  - m_AimSlider: {instanceID: 0}
+  - m_ShootingAudio: {instanceID: 0}
+  - m_ChargingClip: {instanceID: 0}
+  - m_FireClip: {instanceID: 0}
+  - trapPrefab: {fileID: 1245835436867698, guid: 4960dace5d2461143b4e9b46a1472e6f,
+      type: 2}
+  - anchorPrefab: {fileID: 54395844562681988, guid: 3e6799acd90ec3b458850f0b9a0cb64c,
+      type: 2}
+  - chaseBombPrefab: {fileID: 54422256776294322, guid: 5865e99e3ff9b1749869a7757c47293b,
+      type: 2}
+  - explosionBarrelPrefab: {fileID: 54874307011261222, guid: cccd0ad6ed9c0204c9622ae414b2666a,
+      type: 2}
+  - shownImage: {instanceID: 0}
+  - shownWhiteImage: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

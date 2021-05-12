@@ -1,4 +1,5 @@
 sceneSetups:
-- path: Assets/Starter.unity
+- path: Assets/Lego/Prefabs/Scenes/Lego 1.unity
   isLoaded: 1
   isActive: 1
+  isSubScene: 0

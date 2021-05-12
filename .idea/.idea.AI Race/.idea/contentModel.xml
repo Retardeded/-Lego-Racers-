@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\that\Udemy\AI\AI Race" t="IncludeRecursive">
+      <e p="AI Race.sln" t="IncludeFlat" />
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Cartoon SportCar B01" t="Include">
+          <e p="script" t="Include">
+            <e p="brake_light.cs" t="Include" />
+            <e p="on_off_light.cs" t="Include" />
+            <e p="OpenElement.cs" t="Include" />
+          </e>
+          <e p="Standard Assets" t="Include">
+            <e p="divers" t="Include">
+              <e p="ChromaticAberrationShader.shader" t="Include" />
+              <e p="DepthOfFieldDX11.shader" t="Include" />
+              <e p="DepthOfFieldScatter.shader" t="Include" />
+              <e p="SeparableBlur.shader" t="Include" />
+              <e p="VignettingShader.shader" t="Include" />
+            </e>
+            <e p="script" t="Include">
+              <e p="AbstractTargetFollower.cs" t="Include" />
+              <e p="AutoCam.cs" t="Include" />
+              <e p="CameraSwitch.cs" t="Include" />
+              <e p="CarAudio.cs" t="Include" />
+              <e p="CarController.cs" t="Include" />
+              <e p="CarUserControl.cs" t="Include" />
+              <e p="DepthOfField.cs" t="Include" />
+              <e p="FreeLookCam.cs" t="Include" />
+              <e p="PivotBasedCameraRig.cs" t="Include" />
+              <e p="PlatformSpecificContent.cs" t="Include" />
+              <e p="PostEffectsBase.cs" t="Include" />
+              <e p="ProtectCameraFromWallClip.cs" t="Include" />
+              <e p="SimpleActivatorMenu.cs" t="Include" />
+              <e p="SkidTrail.cs" t="Include" />
+              <e p="VignetteAndChromaticAberration.cs" t="Include" />
+              <e p="WheelEffects.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="EnableMiniMapObjects.cs" t="Include" />
+        <e p="Garbage" t="Include">
+          <e p="ANN" t="Include">
+            <e p="ANN.cs" t="Include" />
+            <e p="Layer.cs" t="Include" />
+            <e p="Neuron.cs" t="Include" />
+          </e>
+          <e p="ANNDrive.cs" t="Include" />
+          <e p="PlayerController.cs" t="Include" />
+          <e p="trainData.txt" t="Include" />
+          <e p="weights.txt" t="Include" />
+        </e>
+        <e p="Lego" t="Include">
+          <e p="newScritps" t="Include">
+            <e p="AntiRollBar.cs" t="Include" />
+            <e p="BotController.cs" t="Include" />
+            <e p="Controller.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="MovementController.cs" t="Include" />
+            <e p="OutsideSourcesMovement.cs" t="Include" />
+            <e p="SandSlow.cs" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="AIDecisionMaking.cs" t="Include" />
+            <e p="AnchorMovement.cs" t="Include" />
+            <e p="BarrelExplosion.cs" t="Include" />
+            <e p="Boost.cs" t="Include" />
+            <e p="CameraFollow.cs" t="Include" />
+            <e p="CameraStable.cs" t="Include" />
+            <e p="CarDetector.cs" t="Include" />
+            <e p="CheckPointHandler.cs" t="Include" />
+            <e p="CrossingCheckPoint.cs" t="Include" />
+            <e p="CrossingFastRouteCheckPoint.cs" t="Include" />
+            <e p="CrossingMeta.cs" t="Include" />
+            <e p="CustomGravity.cs" t="Include" />
+            <e p="DirectionAdvisor.cs" t="Include" />
+            <e p="DistanceTraveled.cs" t="Include" />
+            <e p="Dot_Truck_Controller.cs" t="Include" />
+            <e p="ExplosivePlace.cs" t="Include" />
+            <e p="FakeMovement.cs" t="Include" />
+            <e p="FatalCollisionDetector.cs" t="Include" />
+            <e p="FirstPlaceRocket.cs" t="Include" />
+            <e p="InterestingTargetDetector.cs" t="Include" />
+            <e p="MainMenu.cs" t="Include" />
+            <e p="MiniExplosion.cs" t="Include" />
+            <e p="PauseMenu.cs" t="Include" />
+            <e p="RaceUI.cs" t="Include" />
+            <e p="RotateToTarget.cs" t="Include" />
+            <e p="RotationPositionChecker.cs" t="Include" />
+            <e p="SelfDestruction.cs" t="Include" />
+            <e p="ShellExplosion.cs" t="Include" />
+            <e p="Shield.cs" t="Include" />
+            <e p="SmoothFollow.cs" t="Include" />
+            <e p="Trap.cs" t="Include" />
+            <e p="UsePower.cs" t="Include" />
+            <e p="Warp.cs" t="Include" />
+            <e p="WarpFormation.cs" t="Include" />
+            <e p="WhiteBoost.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Magnet.cs" t="Include" />
+        <e p="read me.txt" t="Include" />
+        <e p="Standard Assets" t="Include">
+          <e p="CrossPlatformInput" t="Include">
+            <e p="CrossPlatformInputGuidelines.txt" t="Include" />
+            <e p="Scripts" t="Include">
+              <e p="AxisTouchButton.cs" t="Include" />
+              <e p="ButtonHandler.cs" t="Include" />
+              <e p="CrossPlatformInputManager.cs" t="Include" />
+              <e p="InputAxisScrollbar.cs" t="Include" />
+              <e p="Joystick.cs" t="Include" />
+              <e p="MobileControlRig.cs" t="Include" />
+              <e p="PlatformSpecific" t="Include">
+                <e p="MobileInput.cs" t="Include" />
+                <e p="StandaloneInput.cs" t="Include" />
+              </e>
+              <e p="TiltInput.cs" t="Include" />
+              <e p="TouchPad.cs" t="Include" />
+              <e p="VirtualInput.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Editor" t="Include">
+            <e p="CrossPlatformInput" t="Include">
+              <e p="CrossPlatformInputInitialize.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+    <e p="C:\Users\przyp\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\przyp\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_AI Race.856068038.00" t="ExcludeRecursive" />
+  </component>
+</project>
